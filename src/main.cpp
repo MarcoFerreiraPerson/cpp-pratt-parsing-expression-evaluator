@@ -1,9 +1,21 @@
 #include <iostream>
+#include "Expression.hpp"
 #include "Lexer.hpp"
 
 int main(int argc, char *argv[])
 {
-    std::string const test_expression = "a = 1 + 2 * a + b";
+    std::string const test_expression = "1 + 2 * a + b";
+
+    std::vector<std::string> str_expression_lines;
+
+    str_expression_lines.push_back("a = 2");
+    str_expression_lines.push_back("b = a * 67");
+    str_expression_lines.push_back(test_expression);
+
+    std::vector<Expression> expression_lines;
+
+
+
 
     /*
     a = 5
@@ -15,12 +27,23 @@ int main(int argc, char *argv[])
     */
     Lexer lexer = Lexer();
 
-    lexer.tokenize_expression(test_expression);
-    std::cout << std::endl;
+    for (std::string line : str_expression_lines){
+        lexer.tokenize_expression(line);
+        std::cout << std::endl;
 
-    Expression e = lexer.parse_expression(0);
+        Expression e = lexer.parse_expression(0);
 
-    std::cout << "Expression tree: " << e.print() << std::endl;
+        expression_lines.push_back(e);
+
+    }
+
+    for (Expression e : expression_lines){
+        
+        std::cout << "Expression tree: " << e.print() << std::endl;
+
+    }
+
+   
 
     return 0;
 }
