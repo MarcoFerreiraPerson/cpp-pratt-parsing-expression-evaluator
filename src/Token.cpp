@@ -2,10 +2,10 @@
 #include "Token.hpp"
 
 // Constructor definition
-Token::Token(const std::string& val) 
-    : value(val) 
+Token::Token(const std::string& val)
+    : value(val)
 {
-    
+
     if (value.empty()) {
         throw TokenizationError("Token cannot be empty");
     }
@@ -14,6 +14,8 @@ Token::Token(const std::string& val)
         case '+':
         case '-':
             type = TokenType::Operation;
+            left_priority = 1.1;
+            right_priority = 1;
             break;
         case '*':
         case '/':
@@ -25,17 +27,19 @@ Token::Token(const std::string& val)
             type = TokenType::Operation;
             left_priority = 3.1;
             right_priority = 3;
-
             break;
         default:
             type = TokenType::Atom;
+            left_priority = 0;
+            right_priority = 0;
             break;
     }
-
 }
 
 // Constructor for EOF
 Token::Token() {
     type = TokenType::EndOfFile;
     value = "\0";
+    left_priority = 0;
+    right_priority = 0;
 }

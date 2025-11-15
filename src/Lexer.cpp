@@ -2,8 +2,8 @@
 #include "Expression.hpp"
 #include <cctype>
 #include <algorithm>
-#include <stdexcept>
 #include <iostream>
+#include <variant>
 
 std::vector<std::string> split(const std::string& s, char delimiter) {
     std::vector<std::string> parts;
@@ -24,34 +24,42 @@ std::vector<std::string> split(const std::string& s, char delimiter) {
 
 Lexer::Lexer() : m_tokens{} {}
 
-// Remove and return next token
-Token Lexer::pop() {
+// Remove and return next token or expression
+std::variant<Token, Expression> Lexer::pop() {
     if (this->m_tokens.empty()) {
         return Token();
     }
 
-    Token next_token = this->m_tokens.back();
+    auto next_item = this->m_tokens.back();
 
     this->m_tokens.pop_back();
 
-    return next_token;
+    return next_item;
 }
 
-// return next token
-Token Lexer::peek() {
+// return next token or expression
+std::variant<Token, Expression> Lexer::peek() {
     if (this->m_tokens.empty()) {
         return Token();
     }
 
-    Token next_token = this->m_tokens.back();
+    auto next_item = this->m_tokens.back();
 
-    return next_token;
+    return next_item;
 }
 
 std::string Lexer::print() const {
     std::string result = "Tokens: ";
-    for (const auto& token : m_tokens) {
-        result += token.value + " ";
+    for (const auto& item : m_tokens) {
+        // Use std::visit to handle both Token and Expression
+        std::visit([&result](auto&& arg) {
+            using T = std::decay_t<decltype(arg)>;
+            if constexpr (std::is_same_v<T, Token>) {
+                result += arg.value + " ";
+            } else if constexpr (std::is_same_v<T, Expression>) {
+                result += "[Expression] ";
+            }
+        }, item);
     }
     return result;
 }
@@ -72,6 +80,9 @@ Expression Lexer::process(const std::string& expr) {
     std::reverse(this->m_tokens.begin(), this->m_tokens.end());
 
     std::cout << this->print();
+
+
+    m_tokens.clear();
 
     return Expression();
 } 

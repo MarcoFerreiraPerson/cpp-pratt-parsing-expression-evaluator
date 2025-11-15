@@ -3,16 +3,17 @@
 #include "Token.hpp"
 #include "Expression.hpp"
 #include <vector>
+#include <variant>
 
 class Lexer {
 private:
-    std::vector<Token> m_tokens; // list of tokens to process
+    std::vector<std::variant<Token, Expression>> m_tokens; // list of tokens or expressions to process
 
 public:
     Lexer(); // constructor
-    Expression  process(const std::string& expresion_str);                  
-    Token pop();    // method declaration
-    Token peek();
+    Expression process(const std::string& expresion_str);
+    std::variant<Token, Expression> pop();    // method declaration
+    std::variant<Token, Expression> peek();
     std::string print() const;
 };
 
