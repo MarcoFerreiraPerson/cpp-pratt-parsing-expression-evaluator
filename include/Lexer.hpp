@@ -10,7 +10,7 @@ private:
 
 public:
     Lexer(); // constructor
-    Expression  process();                  
+    Expression  process(const std::string& expresion_str);                  
     Token pop();    // method declaration
-    Token next();
+    Token peek();
 };
