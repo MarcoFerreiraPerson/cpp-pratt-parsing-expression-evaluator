@@ -1,5 +1,6 @@
 #include "Lexer.hpp"
 #include "Expression.hpp"
+#include "Token.hpp"
 #include <cctype>
 #include <algorithm>
 #include <iostream>
@@ -59,14 +60,11 @@ std::string Lexer::print() const {
     return result;
 }
 
-
-// processes all tokens into an expression
-Expression Lexer::process(const std::string& expr) {
-
-    // split into array
+void Lexer::tokenize_expression(const std::string& expr){
+     // split into array
     std::vector<std::string> expression_string_vector = split(expr, ' ');
 
-    // tokzenize
+    // tokenize
     for (std::string token_str : expression_string_vector) {
         this->m_tokens.push_back(Token(token_str));
     }
@@ -75,9 +73,39 @@ Expression Lexer::process(const std::string& expr) {
     std::reverse(this->m_tokens.begin(), this->m_tokens.end());
 
     std::cout << this->print();
+}
 
+// processes all tokens into an expression
+Expression Lexer::parse_expression(float min_priority) {
 
-    m_tokens.clear();
+    Token lhs = this->pop();
 
-    return Expression();
+    if (lhs.type != TokenType::Atom)
+        throw LexerError("The first token must be an atom");
+
+    while (true) {
+        Token next = this->peek();
+
+        if (next.type == TokenType::Operation)
+            throw LexerError("Operation must come after an atom");
+        else if (next.type == TokenType::EndOfFile)
+            break;
+
+        // grabbing the operation
+        Token op = this->pop();
+
+        if (op.left_priority < min_priority)
+            break;
+
+        Expression rhs = this->parse_expression(op.right_priority);
+        lhs = Token(Expression(op, lhs, rhs));
+    }
+
+    // Unwrap the expression from the token
+    if (lhs.expression.has_value()) {
+        return *lhs.expression.value();
+    }
+
+    // If it's just a simple atom token, create an expression from it
+    return Expression(lhs);
 } 

@@ -10,10 +10,16 @@ private:
 
 public:
     Lexer(); // constructor
-    Expression process(const std::string& expresion_str);
+    void tokenize_expression(const std::string& expresion_str);
+    Expression parse_expression(float min_priority);
     Token pop();    // method declaration
     Token peek();
     std::string print() const;
 };
 
 std::vector<std::string> split(const std::string& s, char delimiter);
+
+class LexerError : public std::runtime_error {
+public:
+    LexerError(const std::string& msg) : std::runtime_error(msg) {}
+};

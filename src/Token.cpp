@@ -38,7 +38,7 @@ Token::Token(const std::string& val)
 }
 
 Token::Token(Expression expr)
-    : type(TokenType::Operation), value(""), left_priority(0), right_priority(0)
+    : type(TokenType::Atom), value("[Expression]"), left_priority(0), right_priority(0)
 {
     this->expression = std::make_unique<Expression>(std::move(expr));
 }
