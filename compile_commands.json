@@ -1,0 +1,20 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang++-20",
+      "-std=c++23",
+      "-stdlib=libc++",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "src/main.o",
+      "src/main.cpp"
+    ],
+    "directory": "/home/maroc/programs/cpp-pratt-parsing-expression-evaluator",
+    "file": "/home/maroc/programs/cpp-pratt-parsing-expression-evaluator/src/main.cpp",
+    "output": "/home/maroc/programs/cpp-pratt-parsing-expression-evaluator/src/main.o"
+  }
+]
