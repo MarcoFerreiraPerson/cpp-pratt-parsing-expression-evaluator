@@ -13,4 +13,7 @@ public:
     Expression  process(const std::string& expresion_str);                  
     Token pop();    // method declaration
     Token peek();
+    std::string print() const;
 };
+
+std::vector<std::string> split(const std::string& s, char delimiter);

@@ -8,6 +8,8 @@ class Expression{
         BTree expression_tree;
     public:
         Expression(BTree expression_tree); // constructor
+        Expression(); // constructor
+
         float evaluate() const; // methods
 
 };

@@ -5,14 +5,19 @@
 
 enum class TokenType : char {
     Operation,
-    Atom
+    Atom,
+    EndOfFile
 };
 
 struct Token {
     TokenType type;
     std::string value;
+    float left_priority;
+    float right_priority;
+
 
     Token(const std::string& value);
+    Token();
 };
 
 class TokenizationError : public std::runtime_error {
