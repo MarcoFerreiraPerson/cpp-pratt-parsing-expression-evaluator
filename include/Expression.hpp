@@ -10,7 +10,6 @@ class Expression{
     private:
         BTree expression_tree;
     public:
-        Expression(); // default constructor
         Expression(const Token& op, const Token& lhs, const Token& rhs); // constructor for operations
         Expression(const Token& atom); // constructor for single atom
 
@@ -23,5 +22,6 @@ class Expression{
         Expression& operator=(Expression&& other) noexcept = default;
 
         float evaluate() const; // methods
+        std::string print() const;
 
 };

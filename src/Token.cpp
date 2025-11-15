@@ -15,19 +15,19 @@ Token::Token(const std::string& val)
         case '+':
         case '-':
             type = TokenType::Operation;
-            left_priority = 1.1;
-            right_priority = 1;
+            left_priority = 1;
+            right_priority = 2;
             break;
         case '*':
         case '/':
             type = TokenType::Operation;
-            left_priority = 2.1;
-            right_priority = 2;
+            left_priority = 3;
+            right_priority = 4;
             break;
         case '=':
             type = TokenType::Operation;
-            left_priority = 3.1;
-            right_priority = 3;
+            left_priority = 0;
+            right_priority = 1;
             break;
         default:
             type = TokenType::Atom;

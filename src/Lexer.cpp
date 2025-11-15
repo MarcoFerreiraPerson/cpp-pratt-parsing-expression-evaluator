@@ -86,16 +86,17 @@ Expression Lexer::parse_expression(float min_priority) {
     while (true) {
         Token next = this->peek();
 
-        if (next.type == TokenType::Operation)
-            throw LexerError("Operation must come after an atom");
-        else if (next.type == TokenType::EndOfFile)
+        if (next.type == TokenType::EndOfFile)
             break;
 
-        // grabbing the operation
+        if (next.type != TokenType::Operation)
+            throw LexerError("Expected operation after atom, token: " + next.value);
+
+        if (next.left_priority < min_priority)
+            break;
+
+        // Now grab the operation
         Token op = this->pop();
-
-        if (op.left_priority < min_priority)
-            break;
 
         Expression rhs = this->parse_expression(op.right_priority);
         lhs = Token(Expression(op, lhs, rhs));
@@ -106,6 +107,5 @@ Expression Lexer::parse_expression(float min_priority) {
         return *lhs.expression.value();
     }
 
-    // If it's just a simple atom token, create an expression from it
     return Expression(lhs);
 } 

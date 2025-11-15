@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    std::string const test_expression = "1 + 1 * 5 + 2";
+    std::string const test_expression = "a = 1 + 2 * a + b";
 
     /*
     a = 5
@@ -15,7 +15,12 @@ int main(int argc, char *argv[])
     */
     Lexer lexer = Lexer();
 
-    Expression e = lexer.process(test_expression);
+    lexer.tokenize_expression(test_expression);
+    std::cout << std::endl;
+
+    Expression e = lexer.parse_expression(0);
+
+    std::cout << "Expression tree: " << e.print() << std::endl;
 
     return 0;
 }
