@@ -11,8 +11,8 @@
 *.gch
 *.pch
 
-.cache/*
-.vscode/*
+.cache/
+.vscode/
 
 # Linker files
 *.ilk
