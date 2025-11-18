@@ -2,7 +2,7 @@
 #include "Expression.hpp"
 #include "Lexer.hpp"
 
-int main(int argc, char *argv[])
+int main()
 {
     std::string const test_expression = "1 + 2 * a + b";
 
@@ -14,17 +14,6 @@ int main(int argc, char *argv[])
 
     std::vector<Expression> expression_lines;
 
-
-
-
-    /*
-    a = 5
-    b = 6
-    c = b + 1
-
-    1 + c + 3 * a
-    
-    */
     Lexer lexer = Lexer();
 
     for (std::string line : str_expression_lines){
