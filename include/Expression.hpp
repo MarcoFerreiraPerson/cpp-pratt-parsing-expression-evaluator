@@ -1,6 +1,8 @@
 # pragma once
 
 #include "BTree.hpp"
+#include <unordered_map>
+
 
 // Forward declaration
 struct Token;
@@ -21,7 +23,9 @@ class Expression{
         Expression(Expression&& other) noexcept = default;
         Expression& operator=(Expression&& other) noexcept = default;
 
-        float evaluate() const; // methods
+        float evaluate(std::unordered_map<std::string, float>& vars) const; // methods
         std::string print() const;
 
 };
+
+bool isDigits(const std::string& s);

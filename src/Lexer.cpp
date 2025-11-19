@@ -81,7 +81,7 @@ Expression Lexer::parse_expression(float min_priority) {
     Token lhs = this->pop();
 
     if (lhs.type != TokenType::Atom)
-        throw LexerError("The first token must be an atom");
+        throw LexerError("The next token must be an atom");
 
     for (Token next = this->peek(); next.type != TokenType::EndOfFile; next = this->peek()) {
 
